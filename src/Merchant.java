@@ -1,4 +1,4 @@
-/** One merchant's credentials from env/{code}.properties. */
+/** One merchant's credentials from .env ({code}.pin, {code}.apiKey, ...). */
 final class Merchant {
     final String code;
     final String baseUrl;

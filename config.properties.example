@@ -2,7 +2,7 @@
 language=en
 
 # Switch merchant here, or pass the code as the first program argument.
-# Merchant env files live in env/{merchantCode}.properties (gitignored).
+# Merchant credentials live in .env (shared baseUrl plus {merchantCode}.* keys).
 activeMerchant=ExampleTest
 
 # Product options (pick one per run):

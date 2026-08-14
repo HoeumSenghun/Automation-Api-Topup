@@ -19,7 +19,7 @@ public class Main {
         RefIdGenerator.Issue issue = refIdGenerator.next();
         String refId = issue.refId;
         System.out.println("Using merchant: " + merchant.code);
-        System.out.println("Using env: env/" + merchant.code + ".properties");
+        System.out.println("Using env: .env");
         System.out.println("Using product: " + config.product.label);
         if (config.product == ProductType.PINLESS) {
             System.out.println("Using amount: " + config.transAmount + " " + config.currency);

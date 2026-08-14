@@ -31,8 +31,8 @@ bin/
 .DS_Store
 
 ### Secrets — never commit these ###
+.env
 config.properties
-env/*.properties
 keys/
 
 ### Local run state — never commit these ###

@@ -10,7 +10,7 @@ import java.util.Base64;
 /**
  * Decrypts the init token with the merchant private key, appends PIN,
  * then re-encrypts with the public key for confirm.
- * Keys are Base64 strings from the merchant env file.
+ * Keys are Base64 strings from .env.
  */
 final class RsaTool {
     static String buildFinalToken(Merchant merchant, String rawToken) throws Exception {
