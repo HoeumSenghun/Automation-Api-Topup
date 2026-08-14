@@ -33,7 +33,6 @@ bin/
 ### Secrets — never commit these ###
 config.properties
 env/*.properties
-env/eMoneyTest.properties.example
 keys/
 
 ### Local run state — never commit these ###
