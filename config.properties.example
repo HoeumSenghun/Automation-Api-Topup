@@ -1,11 +1,9 @@
-# Copy this file to config.properties (gitignored) and fill in local values.
-# Do not put PIN, API keys, RSA keys, or real host URLs in this file.
 
 language=en
 
-# Must match an env/{merchantCode}.properties file on your machine.
-# Example merchant codes: eMoneyTest, ePayTest, acleda, QRPAYMENT
-activeMerchant=eMoneyTest
+# Switch merchant here, or pass the code as the first program argument.
+# Merchant env files live in env/{merchantCode}.properties (gitignored).
+activeMerchant=ExampleTest
 
 # Product options (pick one per run):
 #   PINLESS = pinless topup,  refId TOPUPyymmdd0000 then 0001, 0002, ...
