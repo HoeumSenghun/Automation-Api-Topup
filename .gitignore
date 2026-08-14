@@ -32,7 +32,7 @@ bin/
 
 ### Secrets — never commit these ###
 config.properties
-env/
+env/*.properties
 keys/
 
 ### Local run state — never commit these ###
