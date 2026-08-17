@@ -98,7 +98,8 @@ Used refIds for the current day are stored under `data/` so a later run does not
 ## Project layout
 
 ```
-src/                     Java sources (no build tool required)
+src/                     Java CLI
+web/web-automation/      Next.js UI (Vercel root directory)
 config.properties.example
 .env.example
 ```
@@ -114,3 +115,33 @@ Gitignored (never commit):
 ## Secrets
 
 Keep PINs, API keys, RSA keys, host URLs, and customer phone numbers out of git and out of chat logs. Use only the `*.example` files as templates.
+
+## Web UI
+
+A Next.js console lives in `web/web-automation`. Same API flow, with merchant / PINLESS / PINCODE pickers. See `web/web-automation/README.md`. Local `npm run dev` can reuse the Java `.env` at this repo root.
+
+## Deploy only the web app on Vercel
+
+The GitHub repo can stay as one project (Java + web). Vercel should **not** build Java. Point it at the Next.js folder only.
+
+1. Push this repo to GitHub.
+2. In [Vercel](https://vercel.com) → **Add New Project** → import this repository.
+3. Before deploy, set:
+   - **Framework Preset:** Next.js
+   - **Root Directory:** `web/web-automation`  
+     (click *Edit* next to Root Directory — this is the important step)
+   - Leave Build Command / Output as the Next.js defaults
+4. **Environment Variables** (Production + Preview). Vercel cannot read the gitignored root `.env`, so paste secrets here:
+   - `MERCHANT_DOTENV` = full contents of your local `.env` (the merchant keys file)
+   - optional `RUN_SECRET` = a password the UI will require
+5. Deploy.
+
+Optional, so Java-only commits do not trigger a web rebuild:  
+**Project Settings → Git → Ignored Build Step:**
+
+```bash
+git diff --quiet HEAD^ HEAD -- web/web-automation
+```
+
+Also turn on **Deployment Protection** (Vercel Authentication) so the public URL cannot trigger real topups.
+

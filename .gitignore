@@ -32,8 +32,17 @@ bin/
 
 ### Secrets — never commit these ###
 .env
+.env.*
+!.env.example
 config.properties
 keys/
+
+### Node / Next.js (web/web-automation) ###
+node_modules/
+.next/
+.vercel/
+npm-debug.log*
+
 
 ### Local run state — never commit these ###
 data/
