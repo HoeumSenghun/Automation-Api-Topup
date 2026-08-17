@@ -14,14 +14,14 @@ public class Main {
         Merchant merchant = config.merchant;
         ApiClient apiClient = new ApiClient(merchant.baseUrl, merchant.authorizationHeader(), config.language);
         RefIdGenerator refIdGenerator = new RefIdGenerator(
-                config.projectDir, merchant.code, config.product);
+                config.projectDir, merchant.code, config.service);
 
         RefIdGenerator.Issue issue = refIdGenerator.next();
         String refId = issue.refId;
         System.out.println("Using merchant: " + merchant.code);
         System.out.println("Using env: .env");
-        System.out.println("Using product: " + config.product.label);
-        if (config.product == ProductType.PINLESS) {
+        System.out.println("Using service: " + config.service.label);
+        if (config.service == ServiceType.PINLESS) {
             System.out.println("Using amount: " + config.transAmount + " " + config.currency);
         } else {
             System.out.println("Using operator: " + config.networkOperator + " pinCodeId=" + config.pinCodeId);
@@ -66,7 +66,7 @@ public class Main {
         failIfError("CHECK", checkResult);
 
         System.out.println("\nALL STEPS PASSED for merchant " + merchant.code
-                + " product " + config.product.label + " refId " + refId);
+                + " service " + config.service.label + " refId " + refId);
     }
 
     private static void printJson(String title, String json) {

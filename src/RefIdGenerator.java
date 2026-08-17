@@ -28,11 +28,11 @@ final class RefIdGenerator {
         }
     }
 
-    RefIdGenerator(Path projectDir, String merchantCode, ProductType product) {
+    RefIdGenerator(Path projectDir, String merchantCode, ServiceType service) {
         Path dataDir = projectDir.resolve("data");
-        this.sequenceFile = dataDir.resolve("refid_" + merchantCode + "_" + product + ".txt");
-        this.prefix = product.refIdPrefix;
-        this.seqWidth = product.seqWidth;
+        this.sequenceFile = dataDir.resolve("refid_" + merchantCode + "_" + service + ".txt");
+        this.prefix = service.refIdPrefix;
+        this.seqWidth = service.seqWidth;
     }
 
     Issue next() throws IOException {

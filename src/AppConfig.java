@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 final class AppConfig {
     private static final Pattern ENV_PLACEHOLDER = Pattern.compile("\\$\\{([^}]+)}");
-    final ProductType product;
+    final ServiceType service;
     final String transAmount;
     final String currency;
     final String customerPhoneNumber;
@@ -30,11 +30,11 @@ final class AppConfig {
     final Merchant merchant;
     final Path projectDir;
 
-    private AppConfig(Properties props, String activeMerchantCode, String productRaw, Path projectDir,
+    private AppConfig(Properties props, String activeMerchantCode, String serviceRaw, Path projectDir,
                       Properties dotenv) {
         this.projectDir = projectDir;
         this.language = optional(props, "language", "en");
-        this.product = ProductType.parse(productRaw);
+        this.service = ServiceType.parse(serviceRaw);
         this.merchants = loadMerchants(dotenv);
         this.merchant = merchants.get(activeMerchantCode);
         if (this.merchant == null) {
@@ -43,7 +43,7 @@ final class AppConfig {
                             + merchants.keySet());
         }
 
-        if (this.product == ProductType.PINLESS) {
+        if (this.service == ServiceType.PINLESS) {
             this.transAmount = required(props, "transAmount");
             this.currency = required(props, "currency").toUpperCase();
             this.customerPhoneNumber = required(props, "customerPhoneNumber");
@@ -68,12 +68,15 @@ final class AppConfig {
         Properties dotenv = loadDotEnv(projectDir.resolve(".env"));
         Properties props = loadProperties(path, dotenv);
         String merchant = arg(args, 0, required(props, "activeMerchant"));
-        String product = arg(args, 1, required(props, "product"));
-        return new AppConfig(props, merchant, product, projectDir, dotenv);
+        String service = arg(args, 1, firstNonBlank(props.getProperty("service"), props.getProperty("product")));
+        if (service == null) {
+            throw new IllegalStateException("Missing required config key: service");
+        }
+        return new AppConfig(props, merchant, service, projectDir, dotenv);
     }
 
     String buildInitBody(String refId) {
-        if (product == ProductType.PINCODE) {
+        if (service == ServiceType.PINCODE) {
             return "{"
                     + "\"serviceType\":\"PINCODE\","
                     + "\"networkOperator\":\"" + networkOperator + "\","
