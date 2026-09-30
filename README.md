@@ -133,7 +133,8 @@ The GitHub repo can stay as one project (Java + web). Vercel should **not** buil
    - Leave Build Command / Output as the Next.js defaults
 4. **Environment Variables** (Production + Preview). Vercel cannot read the gitignored root `.env`, so paste secrets here:
    - `MERCHANT_DOTENV` = full contents of your local `.env` (the merchant keys file)
-   - optional `RUN_SECRET` = a password the UI will require
+   - `ACCESS_PIN` = 6-digit login PIN (or add `ACCESS_PIN=123456` inside the `MERCHANT_DOTENV` paste)
+   - optional `RUN_SECRET` = extra password the Run form can require
 5. Deploy.
 
 Optional, so Java-only commits do not trigger a web rebuild:  
