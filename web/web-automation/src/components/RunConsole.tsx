@@ -210,10 +210,25 @@ export function RunConsole() {
     <div className="mx-auto grid w-full min-w-0 max-w-6xl gap-4 sm:gap-6 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
       <section className="min-w-0 rounded-2xl border border-white/10 bg-slate-900/70 p-4 shadow-xl shadow-black/20 backdrop-blur sm:p-5">
         <div className="mb-4 sm:mb-5">
-          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-teal-300/80 sm:text-xs">
-            Test console
-          </p>
-          <h1 className="mt-1 text-xl font-semibold tracking-tight text-white sm:text-2xl">Topup Automation</h1>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-teal-300/80 sm:text-xs">
+                Test console
+              </p>
+              <h1 className="mt-1 text-xl font-semibold tracking-tight text-white sm:text-2xl">Topup Automation</h1>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                void fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).finally(() => {
+                  window.location.replace("/login");
+                });
+              }}
+              className="shrink-0 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-400 transition hover:border-white/20 hover:text-white"
+            >
+              Sign out
+            </button>
+          </div>
           <p className="mt-2 text-sm leading-6 text-slate-400">
             Pick merchant and service, then run Init → RSA → Confirm → Check. Keys stay on the server.
           </p>
@@ -500,7 +515,7 @@ export function RunConsole() {
                       )}
                     </div>
                     {step?.detail && <p className="mt-2 text-sm text-slate-400">{step.detail}</p>}
-                    {step?.error && <p className="mt-2 break-words text-sm text-rose-300">{step.error}</p>}
+                    {step?.error && <p className="mt-2 wrap-break-word text-sm text-rose-300">{step.error}</p>}
                     {step?.rsa && (
                       <div className="mt-3 space-y-2">
                         <RsaField
@@ -624,7 +639,7 @@ function Banner({ tone, children }: { tone: "warn" | "bad"; children: ReactNode 
     tone === "warn"
       ? "border-amber-400/20 bg-amber-400/10 text-amber-100"
       : "border-rose-400/20 bg-rose-400/10 text-rose-100";
-  return <div className={`mb-4 overflow-hidden break-words rounded-xl border px-3 py-2.5 text-sm leading-6 ${cls}`}>{children}</div>;
+  return <div className={`mb-4 overflow-hidden wrap-break-word rounded-xl border px-3 py-2.5 text-sm leading-6 ${cls}`}>{children}</div>;
 }
 
 function StatusDot({ step, running }: { step?: StepResult; running?: boolean }) {

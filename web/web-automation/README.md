@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). The UI is locked until you enter the 6-digit `ACCESS_PIN`.
 
 Credentials load in this order:
 
@@ -43,6 +43,7 @@ The GitHub repo also contains Java. Deploy **only** this Next.js app:
 3. Framework: **Next.js**. Do not set a custom output directory.
 4. Add env vars (Vercel does not get the gitignored root `.env`):
    - `MERCHANT_DOTENV` — paste the whole repo-root `.env` file
+   - `ACCESS_PIN` — 6 digits (login). You can also put `ACCESS_PIN=123456` as a line inside `MERCHANT_DOTENV`.
    - optional `RUN_SECRET`
 5. Enable Deployment Protection.
 
@@ -53,6 +54,17 @@ git diff --quiet HEAD^ HEAD -- web/web-automation
 ```
 
 
+## Site login (6-digit PIN)
+
+No user database. `src/proxy.ts` blocks every page and API except `/login` until a signed httpOnly cookie is set.
+
+Set `ACCESS_PIN` (exactly 6 digits) in:
+
+- `web/web-automation/.env.local` for local
+- Vercel env `ACCESS_PIN`, or a line in `MERCHANT_DOTENV`
+
+Wrong PIN is rate-limited. Cookie lasts 12 hours. Use **Sign out** to clear it.
+
 ## Security
 
-PIN, API key, and RSA keys are read only in Route Handlers (`/api/merchants`, `/api/run`). The merchants endpoint returns codes only, never secrets.
+Merchant PIN, API key, and RSA keys are read only in Route Handlers (`/api/merchants`, `/api/run`). The merchants endpoint returns codes only, never secrets. The site PIN never goes to the browser.
