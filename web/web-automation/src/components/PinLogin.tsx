@@ -127,8 +127,7 @@ export function PinLogin() {
                   e.preventDefault();
                   onPaste(e.clipboardData.getData("text"));
                 }}
-                className="aspect-square w-full min-w-0 appearance-none rounded-lg border border-white/10 bg-slate-950 p-0 text-center text-lg leading-none text-white outline-none ring-teal-400/40 focus:ring-2 disabled:opacity-60 sm:rounded-xl sm:text-xl"
-                style={{ WebkitTextSecurity: "disc" }}
+                className="pin-digit aspect-square w-full min-w-0 appearance-none rounded-lg border border-white/10 bg-slate-950 p-0 text-center text-lg leading-none text-white outline-none ring-teal-400/40 focus:ring-2 disabled:opacity-60 sm:rounded-xl sm:text-xl"
               />
             ))}
           </div>
