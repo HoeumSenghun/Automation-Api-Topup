@@ -94,13 +94,18 @@ export function RunConsole() {
     let cancelled = false;
     fetch("/api/merchants")
       .then(async (res) => {
+        if (res.status === 401) {
+          window.location.replace("/login");
+          return;
+        }
         const data = (await res.json()) as Bootstrap;
         if (cancelled) {
           return;
         }
-        setBoot(data);
-        if (data.merchants[0]) {
-          setMerchant(data.merchants[0]);
+        const merchants = Array.isArray(data.merchants) ? data.merchants : [];
+        setBoot({ ...data, merchants });
+        if (merchants[0]) {
+          setMerchant(merchants[0]);
         }
         if (data.catalog?.operators[0]) {
           setOperator(data.catalog.operators[0].code);
@@ -252,8 +257,8 @@ export function RunConsole() {
             value={merchant}
             onChange={(e) => setMerchant(e.target.value)}
           >
-            {!boot?.merchants.length && <option value="">No merchants</option>}
-            {boot?.merchants.map((code) => (
+            {!boot?.merchants?.length && <option value="">No merchants</option>}
+            {boot?.merchants?.map((code) => (
               <option key={code} value={code}>
                 {code}
               </option>
