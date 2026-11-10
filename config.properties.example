@@ -18,3 +18,4 @@ customerPhoneNumber=YOUR_CUSTOMER_PHONE
 # PINCODE init body (used only when service=PINCODE)
 networkOperator=YOUR_OPERATOR
 pinCodeId=YOUR_PIN_CODE_ID
+# PINCODE ids: 1.5 (1.5 USD; alias 1_5), 1, 2, 5, 10, 20, 50, or a custom id

@@ -1,4 +1,4 @@
-import { CURRENCY, isValidPinCodeId, isValidPinlessAmount } from "./catalog";
+import { CURRENCY, isValidPinlessAmount, normalizePinCodeId } from "./catalog";
 import { authorizationHeader, apiMessage, apiStatus, paidTid, postJson, txPaymentTokenId } from "./http";
 import { nextRefId } from "./refId";
 import { buildFinalToken } from "./rsa";
@@ -48,12 +48,12 @@ export function validateAndBuildInit(
 ): { body: Record<string, string> } | { error: string } {
   if (input.service === "PINCODE") {
     const networkOperator = input.networkOperator?.trim();
-    const pinCodeId = input.pinCodeId?.trim();
+    const pinCodeId = normalizePinCodeId(input.pinCodeId ?? "");
     if (!networkOperator) {
       return { error: "networkOperator is required for PINCODE" };
     }
-    if (!pinCodeId || !isValidPinCodeId(pinCodeId)) {
-      return { error: "pinCodeId must be 1, 2, 5, 10, 20, or 50" };
+    if (!pinCodeId) {
+      return { error: "pinCodeId is required (1.5, 1, 2, 5, 10, 20, 50, or a custom id)" };
     }
     return {
       body: {

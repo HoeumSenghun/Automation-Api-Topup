@@ -81,6 +81,7 @@ export function RunConsole() {
   const [phone, setPhone] = useState("855976512415");
   const [operator, setOperator] = useState("METFONE");
   const [pinCodeId, setPinCodeId] = useState("1");
+  const [customPinId, setCustomPinId] = useState("");
   const [refId, setRefId] = useState("");
   const [dryRun, setDryRun] = useState(false);
   const [secret, setSecret] = useState("");
@@ -150,8 +151,8 @@ export function RunConsole() {
     if (service === "PINLESS") {
       return Boolean(amount && phone.trim());
     }
-    return Boolean(operator && pinCodeId);
-  }, [merchant, running, boot?.authRequired, secret, service, amount, phone, operator, pinCodeId]);
+    return Boolean(operator && (customPinId.trim() || pinCodeId));
+  }, [merchant, running, boot?.authRequired, secret, service, amount, phone, operator, pinCodeId, customPinId]);
 
   async function copy(label: string, value: unknown) {
     await navigator.clipboard.writeText(pretty(value));
@@ -176,7 +177,7 @@ export function RunConsole() {
         currency,
         customerPhoneNumber: phone.trim() || undefined,
         networkOperator: service === "PINCODE" ? operator : undefined,
-        pinCodeId: service === "PINCODE" ? pinCodeId : undefined,
+        pinCodeId: service === "PINCODE" ? customPinId.trim() || pinCodeId : undefined,
         refId: refId.trim() || undefined,
         dryRun,
         secret: secret.trim() || undefined,
@@ -208,6 +209,13 @@ export function RunConsole() {
     const value = customAmount.trim();
     if (value) {
       setAmount(value);
+    }
+  }
+
+  function applyCustomPinId() {
+    const value = customPinId.trim();
+    if (value) {
+      setPinCodeId(value);
     }
   }
 
@@ -354,13 +362,28 @@ export function RunConsole() {
                 <Chip
                   key={option.id}
                   active={pinCodeId === option.id}
-                  onClick={() => setPinCodeId(option.id)}
+                  onClick={() => {
+                    setPinCodeId(option.id);
+                    setCustomPinId("");
+                  }}
                 >
                   <span className="block text-sm">{option.value} {currency}</span>
                   <span className="text-[11px] text-slate-400">id {option.id}</span>
                 </Chip>
               ))}
             </div>
+            <input
+              className="w-full min-w-0 rounded-xl border border-white/10 bg-slate-950 px-3 py-3 font-mono text-base text-white outline-none ring-teal-400/40 focus:ring-2 sm:py-2 sm:text-sm"
+              placeholder="Custom pin id (e.g. 1.5)"
+              value={customPinId}
+              onChange={(e) => setCustomPinId(e.target.value)}
+              onBlur={applyCustomPinId}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  applyCustomPinId();
+                }
+              }}
+            />
           </div>
         )}
 

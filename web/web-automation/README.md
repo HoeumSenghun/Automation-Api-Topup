@@ -28,7 +28,7 @@ Do not put real keys in `.env.example` files.
 1. Choose a merchant (from `.env`)
 2. Choose **PINLESS** or **PINCODE**
 3. PINLESS: amount chips (1.5, 1, 2–50 USD) + customer phone
-4. PINCODE: Metfone + pin id 1 / 2 / 5 / 10 / 20 / 50
+4. PINCODE: Metfone + pin id 1.5 (1.5 USD) / 1 / 2 / 5 / 10 / 20 / 50, or a custom pin id
 5. Optional: **Show advanced** → dry run (inspect the init body, no API call) or a custom `refId`
 6. **Run full flow** and read each step’s JSON on the right
 
